@@ -1,7 +1,8 @@
 import { criaComponente } from './Factory.js';
 import { criaCss } from './criaStyles.js';
-
+import MonitorDeRenderizacao from './MonitorDeRenderizacao.js';
 export function App() {
+    const monitora = new MonitorDeRenderizacao();
     criaCss();
     const root = document.getElementById('app');
 
@@ -13,7 +14,7 @@ export function App() {
     ];
     const formulario = criaComponente('form', {className: 'form-login'});
     inputs.forEach(elemento => {
-        const element = criaComponente(elemento.type, elemento);
+        const element = monitora.medirTempo(elemento.className, criaComponente(elemento.type, elemento));
         formulario.appendChild(element);
     });
     root.appendChild(formulario);
