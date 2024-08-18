@@ -1,4 +1,5 @@
-import { criaComponente } from './Factory.js';
+import { CompositeComponente } from './CompositeComponente.js';
+import { FolhaComponente } from './FolhaComponente.js';
 import { criaCss } from './criaStyles.js';
 import MonitorDeRenderizacao from './MonitorDeRenderizacao.js';
 export function App() {
@@ -12,11 +13,12 @@ export function App() {
         { type: 'button', label: 'Enviar', className: 'btn-primary', onClick: () => alert('Enviado com sucesso!') },
         { type: 'checkbox', label: 'Aceito os termos', className: 'checkbox-field', checked: true }
     ];
-    const formulario = criaComponente('form', {className: 'form-login'});
+    const formulario = new CompositeComponente(); 
     inputs.forEach(elemento => {
-        const element = monitora.medirTempo(elemento.className, criaComponente(elemento.type, elemento));
-        formulario.appendChild(element);
+        const folha = new FolhaComponente(elemento.type, elemento);
+        const monitoredLeaf = monitora.medirTempo(elemento.className, folha); 
+        formulario.add(monitoredLeaf);
     });
-    root.appendChild(formulario);
+    root.appendChild(formulario.render());
 }
 App();
